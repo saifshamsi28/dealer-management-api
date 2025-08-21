@@ -1,3 +1,11 @@
-# Ignore environment/config files
+# Ignore environment files
 .env
+
+# Ignore Spring Boot application.properties
 src/main/resources/application.properties
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore build output
+target/
