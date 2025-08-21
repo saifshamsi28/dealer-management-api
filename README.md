@@ -31,3 +31,6 @@ A Spring Boot REST API for managing dealers, vehicles, and payment processing wi
 - `dealers` - Dealer information with subscription types
 - `vehicles` - Vehicle inventory linked to dealers
 - `payments` - Payment transaction records
+
+###Snapshot of Postman Collection
+<img width="1908" height="1064" alt="image" src="https://github.com/user-attachments/assets/97e36b04-8d4f-48a1-8488-fc5772c6e2fa" />
