@@ -54,4 +54,11 @@ public class PaymentController {
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Payment> deletePaymentByID(@PathVariable Long id){
+        System.out.println("deleting payment with id : "+id);
+        Payment payment = paymentService.deletePaymentById(id);
+        return payment != null ? ResponseEntity.ok(payment) : ResponseEntity.notFound().build();
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -44,5 +45,13 @@ public class PaymentService {
 
     public Payment getPaymentById(Long id) {
         return paymentRepository.findById(id).orElse(null);
+    }
+
+    public Payment deletePaymentById(Long id){
+        Payment payment=paymentRepository.findById(id).orElse(null);
+        if ((payment!=null)){
+            paymentRepository.deleteById(id);
+        }
+        return payment;
     }
 }

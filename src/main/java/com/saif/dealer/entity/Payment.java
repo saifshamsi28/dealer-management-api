@@ -33,10 +33,10 @@ public class Payment {
     private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String createdAt = String.valueOf(System.currentTimeMillis());
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private String updatedAt;
 
     public Payment() {}
 
@@ -61,14 +61,14 @@ public class Payment {
     public PaymentStatus getStatus() { return status; }
     public void setStatus(PaymentStatus status) { 
         this.status = status;
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = String.valueOf(System.currentTimeMillis());
     }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = String.valueOf(createdAt); }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = String.valueOf(updatedAt); }
 
     public enum PaymentMethod {
         UPI, CARD, NETBANKING
