@@ -17,7 +17,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:8080/api"
+      "value": "https://dealer-management-api-328e.onrender.com/api"
     },
     {
       "key": "jwt_token",
