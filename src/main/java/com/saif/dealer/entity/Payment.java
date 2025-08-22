@@ -1,8 +1,10 @@
 package com.saif.dealer.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.data.annotation.Reference;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,10 +35,15 @@ public class Payment {
     private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(name = "created_at", nullable = false)
-    private String createdAt = String.valueOf(System.currentTimeMillis());
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
-    private String updatedAt;
+    private LocalDateTime updatedAt;
+
+    // ManyToOne relation for JPQL join
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dealer_id", insertable = false, updatable = false)
+    private Dealer dealer;
 
     public Payment() {}
 
@@ -61,14 +68,22 @@ public class Payment {
     public PaymentStatus getStatus() { return status; }
     public void setStatus(PaymentStatus status) { 
         this.status = status;
-        this.updatedAt = String.valueOf(System.currentTimeMillis());
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public String getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = String.valueOf(createdAt); }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public String getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = String.valueOf(updatedAt); }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public Dealer getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Dealer dealer) {
+        this.dealer = dealer;
+    }
 
     public enum PaymentMethod {
         UPI, CARD, NETBANKING

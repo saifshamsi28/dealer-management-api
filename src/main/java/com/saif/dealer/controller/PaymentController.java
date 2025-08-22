@@ -1,6 +1,7 @@
 package com.saif.dealer.controller;
 
 import com.saif.dealer.dto.PaymentRequest;
+import com.saif.dealer.dto.PaymentResponse;
 import com.saif.dealer.entity.Payment;
 import com.saif.dealer.repository.PaymentRepository;
 import com.saif.dealer.service.PaymentService;
@@ -51,8 +52,8 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<Payment> getAllPayments() {
-        return paymentRepository.findAll();
+    public List<PaymentResponse> getAllPayments() {
+        return paymentRepository.findAllWithDealerInfo();
     }
 
     @DeleteMapping("/{id}")
