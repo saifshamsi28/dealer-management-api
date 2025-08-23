@@ -7,7 +7,7 @@ import com.saif.dealer.dto.RegisterRequest;
 import com.saif.dealer.entity.User;
 import com.saif.dealer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,6 +31,9 @@ public class AuthController {
     @Autowired
     private JwtConfig jwtConfig;
 
+    @Value("${jwt.expiration}")
+    private Long jwtExpiration;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) throws Exception {
         try {
@@ -44,13 +47,13 @@ public class AuthController {
         final UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         final String jwt = jwtConfig.generateToken(userDetails);
 
-        Optional<User> userBox = userService.findByUsername(authRequest.getUsername());
+        Optional<User> user = userService.findByUsername(authRequest.getUsername());
 
-        if (userBox.isPresent()) {
-            User user=userBox.get();
-            return ResponseEntity.ok(new AuthResponse(jwt, user.getUsername(), user.getId()));
+        if(user.isPresent()) {
+            long expirationTime = System.currentTimeMillis() + jwtExpiration;
+            return ResponseEntity.ok(new AuthResponse(jwt, user.get().getUsername(), user.get().getId(), expirationTime));
         }else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -61,7 +64,8 @@ public class AuthController {
             final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
             final String jwt = jwtConfig.generateToken(userDetails);
 
-            return ResponseEntity.ok(new AuthResponse(jwt, user.getUsername(), user.getId()));
+            long expirationTime = System.currentTimeMillis() + jwtExpiration;
+            return ResponseEntity.ok(new AuthResponse(jwt, user.getUsername(), user.getId(), expirationTime));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
